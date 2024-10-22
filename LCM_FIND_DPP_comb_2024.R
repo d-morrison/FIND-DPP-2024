@@ -18,7 +18,7 @@ number2binary = function(number, noBits) {
 test.matrix = matrix((NA),nrow = 2^n, ncol=n)
 for (i in 0:(2^n -1)){
   test.matrix[i+1,] = number2binary(i,n)
-}  
+}
 
 ## need to generate the result vector
 trim.data = data.merged %>%
@@ -81,8 +81,8 @@ for (i in 1:sims){ #loop over simulations
   pi= rbeta(1,sum(Y.vec)+pi.alpha,N-sum(Y.vec)+pi.beta)
   for (j in 1:n){
     S.vec[j]= rbeta(1,sum(test.matrix[,j]*Y.vec) + S.alpha[j],sum((1-test.matrix[,j])*Y.vec) + S.beta[j]) #multiple vector of test results by the test matrix
-    C.vec[j]= rbeta(1,sum((1-test.matrix[,j])*result.vector) - sum((1-test.matrix[,j])*Y.vec) + C.alpha[j], 
-                    sum(test.matrix[,j]*result.vector) - sum(test.matrix[,j]*Y.vec) + C.beta[j]) #first number is all negatives minus false negatives; second number is all positives minus true positives 
+    C.vec[j]= rbeta(1,sum((1-test.matrix[,j])*result.vector) - sum((1-test.matrix[,j])*Y.vec) + C.alpha[j],
+                    sum(test.matrix[,j]*result.vector) - sum(test.matrix[,j]*Y.vec) + C.beta[j]) #first number is all negatives minus false negatives; second number is all positives minus true positives
   }
   pi.vec[i]=pi
   S.mat[,i]=S.vec
@@ -128,5 +128,5 @@ results2=df.long %>%
 results2$param = c(rep("Specificity",10),rep("Sensitivity",10),"Prevalence")
 results2$name = c(rep(c("CTK IgG","DPP","Enterocheck","SD IgM","Spectrum IgM","TestIt","Tubex","Typhidot IgM",
                       "Widal","Blood culture"),2),"Prevalence")
-
+results2 |> readr::write_rds("results2.rds")
 
